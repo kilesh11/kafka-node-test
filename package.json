@@ -1,0 +1,16 @@
+{
+  "name": "kafka-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "produce": "node ./producer/index.js",
+    "consume": "node ./consumer/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "kafkajs": "^1.15.0"
+  }
+}
