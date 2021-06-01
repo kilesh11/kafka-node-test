@@ -1,9 +1,8 @@
-import { Kafka, CompressionTypes, logLevel } from 'kafkajs';
+import { Kafka, CompressionTypes } from 'kafkajs';
 
 const host = 'host.docker.internal';
 
 const kafka = new Kafka({
-  logLevel: logLevel.DEBUG,
   brokers: [`${host}:9092`],
   clientId: 'example-producer',
 })
@@ -11,23 +10,23 @@ const kafka = new Kafka({
 const topic = 'topic-test'
 const producer = kafka.producer()
 
-const getRandomNumber = () => Math.round(Math.random(10) * 1000)
+const getRandomNumber = () => Math.round(Math.random(10) * 10)
 const createMessage = num => ({
   key: `key-${num}`,
   value: `value-${num}-${new Date().toISOString()}`,
 })
 
 const sendMessage = () => {
-  return producer
-    .send({
-      topic,
-      compression: CompressionTypes.GZIP,
-      messages: Array(getRandomNumber())
-        .fill()
-        .map(_ => createMessage(getRandomNumber())),
-    })
-    .then(console.log)
-    .catch(e => console.error(`[example/producer] ${e.message}`, e))
+    const randomNumber = getRandomNumber();
+    const mapArray = Array(randomNumber).fill().map( _ => createMessage(randomNumber));
+    console.log('kyle_debug ~ file: index.js ~ line 28 ~ sendMessage ~ mapArray', mapArray)
+    return producer
+        .send({
+        topic,
+        compression: CompressionTypes.GZIP,
+        messages: mapArray,
+        })
+        .catch(e => console.error(`[example/producer] ${e.message}`, e))
 }
 
 const run = async () => {

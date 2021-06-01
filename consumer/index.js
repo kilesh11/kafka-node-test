@@ -1,9 +1,8 @@
-import { Kafka, logLevel } from 'kafkajs';
+import { Kafka } from 'kafkajs';
 
 const host = 'host.docker.internal';
 
 const kafka = new Kafka({
-  logLevel: logLevel.INFO,
   brokers: [`${host}:9092`],
   clientId: 'example-consumer',
 })
@@ -19,8 +18,8 @@ const run = async () => {
     //   console.log(batch)
     // },
     eachMessage: async ({ topic, partition, message }) => {
-      const prefix = `${topic}[${partition} | ${message.offset}] / ${message.timestamp}`
-      console.log(`- ${prefix} ${message.key}#${message.value}`)
+      const prefix = `${topic} [${partition} | ${message.offset}] / ${message.timestamp}`
+      console.log(`- ${prefix} | ${message.key} | ${message.value}`)
     },
   })
 }
